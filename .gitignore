@@ -1,0 +1,11 @@
+target/
+bin/
+.settings/
+.classpath
+.project
+.DS_Store
+dependency-reduced-pom.xml
+
+data/*.txt
+data/*.dat
+data/*.pdf
