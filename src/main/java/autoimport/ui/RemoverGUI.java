@@ -81,7 +81,7 @@ public class RemoverGUI extends JFrame
 	                {
 	                	try 
 	                	{
-	                	    FileWriter fr = new FileWriter("data/Dados.txt");
+	                	    FileWriter fr = new FileWriter(ResourcePaths.dataFile("Dados.txt"));
 	                	    BufferedWriter bw = new BufferedWriter(fr);
 
 	                	    for (int i = 0; i < a.size(); i++) 

@@ -1,4 +1,5 @@
 package autoimport.service;
+import autoimport.util.ResourcePaths;
 import autoimport.model.*;
 
 import java.io.BufferedWriter;
@@ -24,7 +25,7 @@ public class Remover
 			{
 				try
 				{
-					FileWriter fr=new FileWriter("Cliente_de_Entregue_concluida.txt",true);
+					FileWriter fr=new FileWriter(ResourcePaths.dataFile("Cliente_de_Entregue_concluida.txt"),true);
 					BufferedWriter bw=new BufferedWriter(fr);
 					
 					if(pai instanceof Doutorado)
@@ -73,7 +74,7 @@ public class Remover
 			}
 		}
 		try {
-		    FileWriter fr = new FileWriter("data/Dados.txt");
+		    FileWriter fr = new FileWriter(ResourcePaths.dataFile("Dados.txt"));
 		    BufferedWriter bw = new BufferedWriter(fr);
 
 		    for (int i = 0; i < a.size(); i++) 

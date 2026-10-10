@@ -42,26 +42,45 @@ src/main/java/autoimport/
 src/main/resources/
   imagens/ musica/ video/    assets usados pela interface
 src/test/java/autoimport/    testes JUnit da lógica de negócio
-data/                        ficheiros de dados em runtime (não versionados)
+packaging/                   ícone do executável (usado pelo empacotar.ps1)
 ```
 
 ## Como correr
 
-```bash
-mvn compile
-mvn exec:java -Dexec.mainClass=autoimport.App
+### Executável Windows (recomendado)
+
+```powershell
+.\empacotar.ps1
 ```
 
-Ou gerar um `.jar` executável (com todas as dependências incluídas):
+Gera `dist\AutoImportMZ\AutoImportMZ.exe`. O executável inclui o seu próprio
+Java, por isso abre com duplo clique, sem precisar de Java, Maven ou
+`JAVA_HOME` configurados. A pasta `dist\AutoImportMZ` pode ser copiada para
+outro PC Windows tal como está.
+
+### Durante o desenvolvimento
 
 ```bash
-mvn package
+./mvnw compile exec:java
+```
+
+Ou gerar só o `.jar` (com todas as dependências incluídas):
+
+```bash
+./mvnw package
 java -jar target/autoimport-mz-standalone.jar
 ```
 
-Na primeira execução `data/users.txt` ainda não existe — usa o botão **"Sign
-In"** no ecrã de login para criar o primeiro utilizador. Depois de o
-registares, ele passa a aparecer na lista para fazeres login.
+### Onde ficam os dados
+
+Os utilizadores, clientes e o PDF exportado ficam em
+`%USERPROFILE%\AutoImportMZ\data` (por exemplo
+`C:\Users\<nome>\AutoImportMZ\data`), seja qual for a forma como a app é
+lançada. A pasta é criada automaticamente na primeira execução; para usar
+outra, arranca com `-Dautoimport.dados=<caminho>`.
+
+Na primeira execução ainda não há utilizadores: usa o botão **Criar conta**
+no ecrã de login. Depois de o registares, ele passa a aparecer na lista.
 
 ## Testes
 
@@ -76,7 +95,7 @@ regras de negócio e mais fácil de testar isoladamente da interface gráfica.
 
 ## Segurança de credenciais
 
-As passwords são guardadas em `data/users.txt` como hash SHA-256 (ver
+As passwords são guardadas em `users.txt` (na pasta de dados) como hash SHA-256 (ver
 `autoimport.util.PasswordUtil`), não em texto simples. Isto é suficiente para
 um projeto de portefólio, mas não é o que se usaria em produção — falta sal
 por utilizador e um algoritmo pensado para passwords (ex. bcrypt/argon2), que

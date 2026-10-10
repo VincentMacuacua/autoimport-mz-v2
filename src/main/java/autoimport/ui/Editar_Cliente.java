@@ -1,4 +1,5 @@
 package autoimport.ui;
+import autoimport.util.ResourcePaths;
 import autoimport.model.*;
 import autoimport.service.*;
 
@@ -109,7 +110,7 @@ public class Editar_Cliente extends JFrame
 	                        pai.setEstadoCompra(statusSelecionado);
 	                        // O try-with-resources garante que FileWriter e BufferedWriter sejam fechados.
 	                        try
-	                        	(FileWriter fr = new FileWriter("data/Dados.txt");
+	                        	(FileWriter fr = new FileWriter(ResourcePaths.dataFile("Dados.txt"));
 	                             BufferedWriter bw = new BufferedWriter(fr)) 
 	                        {
 	                            for (int i = 0; i < a.size(); i++) 

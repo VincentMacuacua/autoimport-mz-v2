@@ -50,7 +50,7 @@ public class Menu extends JFrame
 		cont.setLayout(new BorderLayout());
 
 		// definir icon da janela
-		ImageIcon programaIcon=new ImageIcon(ResourcePaths.imagem("programaIcon1.jpeg"));
+		ImageIcon programaIcon=new ImageIcon(ResourcePaths.imagem("appIcon.png"));
 		setIconImage(programaIcon.getImage());
 
 		setJMenuBar(menuBar);
@@ -371,7 +371,7 @@ public class Menu extends JFrame
 			{
 				public void actionPerformed(ActionEvent ev)
 				{
-					String nomePDF="data/Balaco.pdf";
+					String nomePDF=ResourcePaths.dataFile("Balaco.pdf");
 					pdf.exportarParaPDF(cliente,nomePDF);
 				}
 			}
@@ -571,7 +571,7 @@ public class Menu extends JFrame
 
 		try
 		{
-			FileReader fr=new FileReader("data/Dados.txt");
+			FileReader fr=new FileReader(ResourcePaths.dataFile("Dados.txt"));
 			BufferedReader br=new BufferedReader(fr);
 
 			linha=br.readLine();
@@ -633,7 +633,7 @@ public class Menu extends JFrame
 		}
 		catch(FileNotFoundException fn)
 		{
-			JOptionPane.showMessageDialog(this,"Nao foi encontrado o ficheiro data/Dados.txt.","Ficheiro nao encontrado",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this,"Nao foi encontrado o ficheiro "+ResourcePaths.dataFile("Dados.txt"),"Ficheiro nao encontrado",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		catch(NumberFormatException nf)

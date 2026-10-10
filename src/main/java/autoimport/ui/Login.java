@@ -33,7 +33,7 @@ public class Login extends JFrame
 	{
 		super("AutoImport MZ - Iniciar sessao");
 
-        befIcon=new ImageIcon(ResourcePaths.imagem("progIcon.png"));
+        befIcon=new ImageIcon(ResourcePaths.imagem("appIcon.png"));
         setIconImage(befIcon.getImage());
 
 		setContentPane(Tema.fundoMarca());
@@ -183,7 +183,7 @@ public class Login extends JFrame
 
 		try
 		{
-			FileReader fr=new FileReader("data/users.txt");
+			FileReader fr=new FileReader(ResourcePaths.dataFile("users.txt"));
 			BufferedReader br=new BufferedReader(fr);
 
 			linha=br.readLine();

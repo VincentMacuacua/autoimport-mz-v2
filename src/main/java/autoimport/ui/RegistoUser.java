@@ -115,7 +115,7 @@ public class RegistoUser extends JFrame
 
 	                try
 	                {
-	            		FileWriter	fr=new FileWriter("data/users.txt", true);
+	            		FileWriter	fr=new FileWriter(ResourcePaths.dataFile("users.txt"), true);
 	                	BufferedWriter br = new BufferedWriter(fr);
 
 		        		br.write(nome + ";" + pinCifrado + ";" +numeroT);

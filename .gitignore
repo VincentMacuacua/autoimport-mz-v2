@@ -9,3 +9,6 @@ dependency-reduced-pom.xml
 data/*.txt
 data/*.dat
 data/*.pdf
+
+# Executavel gerado pelo empacotar.ps1
+dist/

@@ -1,4 +1,5 @@
 package autoimport.ui;
+import autoimport.util.ResourcePaths;
 import autoimport.model.*;
 
 import javax.swing.*;
@@ -489,7 +490,7 @@ public class NovoClinete extends JFrame implements ItemListener
     {
         try
         {
-            FileWriter fw = new FileWriter("data/Dados.txt", true); // true para append (manter dados existentes)
+            FileWriter fw = new FileWriter(ResourcePaths.dataFile("Dados.txt"), true); // true para append (manter dados existentes)
             BufferedWriter bw = new BufferedWriter(fw);
 
             // Pega o último elemento adicionado ao array (o mais recente)

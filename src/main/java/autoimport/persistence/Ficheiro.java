@@ -2,6 +2,7 @@ package autoimport.persistence;
 
 import autoimport.model.*;
 import autoimport.util.PasswordUtil;
+import autoimport.util.ResourcePaths;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -17,7 +18,7 @@ public class Ficheiro
 	}
 	public void actualizarFicheiro_users(ArrayList<Usuario> a,String novaPass,String numero,int poz)
 	{
-		try (BufferedWriter b = new BufferedWriter(new FileWriter("data/users.txt")))
+		try (BufferedWriter b = new BufferedWriter(new FileWriter(ResourcePaths.dataFile("users.txt"))))
 		{
 			for(int i=0;i<a.size();i++)
 			{
