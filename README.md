@@ -8,7 +8,24 @@ PDF e um dashboard com estatísticas de vendas.
 
 Desenvolvido por Vicente Macuácua como projeto académico de Programação
 Orientada a Objetos, e posteriormente reorganizado como projeto de portefólio
-(estrutura Maven, testes, segurança de credenciais).
+(estrutura Maven, testes, segurança de credenciais, interface redesenhada e
+executável Windows).
+
+![Dashboard do AutoImport MZ](docs/screenshots/dashboard.png)
+
+## Capturas de ecrã
+
+| Iniciar sessão | Ecrã inicial |
+|---|---|
+| ![Ecrã de login](docs/screenshots/login.png) | ![Ecrã inicial](docs/screenshots/ecra-inicial.png) |
+
+| Todos os clientes | Clientes por tipo |
+|---|---|
+| ![Tabela de todos os clientes](docs/screenshots/tabela-clientes.png) | ![Clientes por tipo](docs/screenshots/clientes-por-tipo.png) |
+
+| Novo cliente |
+|---|
+| ![Formulário de novo cliente](docs/screenshots/novo-cliente.png) |
 
 ## Funcionalidades
 
