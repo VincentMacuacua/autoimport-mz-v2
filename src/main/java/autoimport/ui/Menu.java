@@ -23,7 +23,7 @@ public class Menu extends JFrame
 	private JMenuItem tabT, tabC, exp, sobre, manual;
 	private JMenuItem vid, mus;
 	private JLabel welcome, beFor;
-	private ImageIcon temaIcon,imagemAtual,manualIcon,vidIcon,altIcon,verIcon,verEIcon,adiIcon,proIcon,ediIcon,remIcon,tabTIcon,tabCIcon,musicIcon,pdfIcon,userIcon,logIcon,lerIcon,exitIcon,qtyIcon,acumIcon,dasIcon;
+	private ImageIcon temaIcon,manualIcon,vidIcon,altIcon,verIcon,verEIcon,adiIcon,proIcon,ediIcon,remIcon,tabTIcon,tabCIcon,musicIcon,pdfIcon,userIcon,logIcon,lerIcon,exitIcon,qtyIcon,acumIcon,dasIcon;
 	private Container cont;
 	private JPopupMenu popup;
 	private JRadioButton tema1,tema2,tema3,tema4;
@@ -40,18 +40,10 @@ public class Menu extends JFrame
 
 	public Menu(ArrayList<Usuario> user,String passValidar)
 	{
-		super("Menu");
+		super("AutoImport MZ");
 		menuBar = new JMenuBar();
 
-		imagemAtual = new ImageIcon(ResourcePaths.imagem("rose_lilaz_escuro.jpeg"));
-		panel = new JPanel()
-		{
-		    protected void paintComponent(Graphics g)
-		    {
-		        super.paintComponent(g);
-	            g.drawImage(imagemAtual.getImage(), 0, 0, getWidth(), getHeight(), this);
-		    }
-		};
+		panel = Tema.fundoMarca();
         setContentPane(panel);
 
 		cont = getContentPane();
@@ -84,7 +76,7 @@ public class Menu extends JFrame
 		panel.validate();
 		repaint();
 		revalidate();
-		setSize(1000, 700);
+		setSize(1100, 720);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
@@ -214,39 +206,9 @@ public class Menu extends JFrame
 				int opcao;
 				public void actionPerformed(ActionEvent ev)
 				{
-					opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?","Confirmacao para sair do programa",JOptionPane.YES_NO_OPTION);
+					opcao = JOptionPane.showConfirmDialog(Menu.this, "Deseja realmente sair do AutoImport MZ?","Sair",JOptionPane.YES_NO_OPTION);
 					if (opcao == JOptionPane.YES_OPTION)
 					{
-						String texto =
-				                "     |======================================|\n" +
-				                "     |==============    ===     ============|\n" +
-				                "     |=============      =       ===========|\n" +
-				                "     |=============              ===========|\n" +
-				                "     |==============           =============|\n" +
-				                "     |================       ===============|\n" +
-				                "     |======   =========   ========   ======|\n" +
-				                "     |======= =========== ========== =======|\n" +
-				                "     |======================================|\n" +
-				                "     |*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-|\n" +
-				                "     | Obrigado por usar o nosso programa ! |\n" +
-				                "     |*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-|\n" +
-				                "     |======================================|\n" +
-				                "     |==============    ===     ============|\n" +
-				                "     |=============      =       ===========|\n" +
-				                "     |=============              ===========|\n" +
-				                "     |==============           =============|\n" +
-				                "     |================       ===============|\n" +
-				                "     |======   =========   ========   ======|\n" +
-				                "     |======= =========== ========== =======|\n" +
-				                "     |======================================|";
-
-				        JTextArea area = new JTextArea(texto);
-				        area.setEditable(false);
-				        area.setFont(new Font("Monospaced",Font.PLAIN, 12));
-				        area.setForeground(new Color(180, 100, 255));
-				        area.setBackground(Color.DARK_GRAY);
-
-				        JOptionPane.showMessageDialog(null,area,"Ate breve!",JOptionPane.PLAIN_MESSAGE);
 						System.exit(0);
 					}
 				}
@@ -481,24 +443,48 @@ public class Menu extends JFrame
 
 	private void buildWelcomeLabels()
 	{
-		welcome = new JLabel("Welcome To",JLabel.CENTER);
-		welcome.setFont(new Font("Serif", Font.BOLD, 70));
-		welcome.setForeground(new Color(255, 255, 102));
-		cont.add(welcome, BorderLayout.NORTH);
+		JPanel centro = new JPanel();
+		centro.setOpaque(false);
+		centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
 
-		beFor = new JLabel("AutoImport MZ",JLabel.CENTER);
-		beFor.setFont(new Font("Serif", Font.BOLD, 70));
-		beFor.setForeground(new Color(255, 255, 102));
-		cont.add(beFor, BorderLayout.SOUTH);
+		JLabel faixa = new JLabel("SISTEMA DE GESTÃO DE IMPORTAÇÕES");
+		faixa.setFont(Tema.fonte(Font.BOLD, 13f));
+		faixa.setForeground(Tema.DOURADO);
+		faixa.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		beFor = new JLabel("AutoImport MZ");
+		beFor.setFont(Tema.fonte(Font.BOLD, 56f));
+		beFor.setForeground(Tema.TEXTO_INVERSO);
+		beFor.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		welcome = new JLabel("Bem-vindo. Comece por carregar os dados em Home › Ler Ficheiro de Texto.");
+		welcome.setFont(Tema.fonte(Font.PLAIN, 16f));
+		welcome.setForeground(Tema.TEXTO_INVERSO_SUAVE);
+		welcome.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		centro.add(Box.createVerticalGlue());
+		centro.add(faixa);
+		centro.add(Box.createVerticalStrut(12));
+		centro.add(beFor);
+		centro.add(Box.createVerticalStrut(12));
+		centro.add(welcome);
+		centro.add(Box.createVerticalGlue());
+		cont.add(centro, BorderLayout.CENTER);
+
+		JLabel rodape = new JLabel("Clique com o botão direito para mudar o tema ou abrir os extras", JLabel.CENTER);
+		rodape.setFont(Tema.fonte(Font.PLAIN, 12f));
+		rodape.setForeground(Tema.TEXTO_INVERSO_SUAVE);
+		rodape.setBorder(BorderFactory.createEmptyBorder(0, 0, 16, 0));
+		cont.add(rodape, BorderLayout.SOUTH);
 	}
 
 	private void buildTemaMenu()
 	{
 		// Criar radio buttons para right click
-        tema1 = new JRadioButton("Tema Lilas escuro", true);
-        tema2 = new JRadioButton("Tema Vermelho Ford");
-        tema3 = new JRadioButton("Tema Azul SkyLine");
-        tema4 = new JRadioButton("Tema Lilaz Labo");
+        tema1 = new JRadioButton("Azul marinho", true);
+        tema2 = new JRadioButton("Grafite");
+        tema3 = new JRadioButton("Verde petroleo");
+        tema4 = new JRadioButton("Bordo");
 
         grTema = new ButtonGroup();
         grTema.add(tema1);
@@ -506,50 +492,10 @@ public class Menu extends JFrame
         grTema.add(tema3);
         grTema.add(tema4);
 
-        //listener de click
-        tema4.addItemListener
-        (
-        	new ItemListener()
-        	{
-	            public void itemStateChanged(ItemEvent e)
-	            {
-	                mudarTema(ResourcePaths.imagem("premium_photo-1687153733088-9fc19cbc59bf.jpeg"));
-	            }
-        	}
-        );
-
-        tema1.addItemListener
-        (
-        	new ItemListener()
-        	{
-	            public void itemStateChanged(ItemEvent e)
-	            {
-	                mudarTema(ResourcePaths.imagem("rose_lilaz_escuro.jpeg"));
-	            }
-        	}
-        );
-
-        tema2.addItemListener
-        (
-        	new ItemListener()
-        	{
-	            public void itemStateChanged(ItemEvent e)
-	            {
-	                mudarTema(ResourcePaths.imagem("car-pc-desktop-4k.jpg"));
-	            }
-        	}
-        );
-
-        tema3.addItemListener
-        (
-        	new ItemListener()
-        	{
-        		public void itemStateChanged(ItemEvent e)
-	            {
-	                mudarTema(ResourcePaths.imagem("racing-car-night-speed-desktop-wallpaper-preview.jpg"));
-	            }
-        	}
-        );
+        tema1.addItemListener(e -> mudarTema(Tema.MARINHO));
+        tema2.addItemListener(e -> mudarTema(new Color(0x334155)));
+        tema3.addItemListener(e -> mudarTema(new Color(0x0F5257)));
+        tema4.addItemListener(e -> mudarTema(new Color(0x6B1D2A)));
 
 		tema=new JMenu("Tema");
 		tema.add(tema1);
@@ -609,15 +555,12 @@ public class Menu extends JFrame
 		popup.addSeparator();
 		popup.add(mus);
 		popup.addSeparator();
-        // Transparente para não cobrir imagem
-        popup.setOpaque(false);
         popup.add(tema);
 	}
 
-	private void mudarTema(java.net.URL caminhoImagem)
+	private void mudarTema(Color cor)
 	{
-        imagemAtual = new ImageIcon(caminhoImagem);
-        panel.repaint(); // Atualiza o fundo
+        panel.setBackground(cor); // O painel de marca redesenha o gradiente a partir desta cor
     }
 	public void lerFicheiroTexto()
 	{
@@ -690,7 +633,8 @@ public class Menu extends JFrame
 		}
 		catch(FileNotFoundException fn)
 		{
-			JOptionPane.showMessageDialog(null,"|======================|\n"+"| Nao contra o ficheiro de Dados.txt |\n"+"|======================|\n","FILE NOT FOUND",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this,"Nao foi encontrado o ficheiro data/Dados.txt.","Ficheiro nao encontrado",JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		catch(NumberFormatException nf)
 		{
@@ -700,7 +644,7 @@ public class Menu extends JFrame
 		{
 			JOptionPane.showMessageDialog(null,io.getMessage());
 		}
-		JOptionPane.showMessageDialog(null, "|==========================|\n"+"| Ficheiro de Dados.txt lido com Sucesso! |\n"+"|==========================|\n", "Info", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, cliente.size()+" clientes carregados de Dados.txt.", "Dados carregados", JOptionPane.INFORMATION_MESSAGE);
 
     }
 	public void adaptRemoverCli()

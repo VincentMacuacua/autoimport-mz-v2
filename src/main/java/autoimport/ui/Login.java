@@ -6,7 +6,6 @@ import autoimport.service.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,18 +13,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-  
+
 public class Login extends JFrame
 {
 	private Container cont;
-	private JLabel nameL, passL, forgotL;
+	private JLabel nameL, passL;
 	private JPasswordField passField;
 	private JComboBox<String> combo;
 	private String comboTitles[];
-	private JButton signButton, logButton;
-	private JCheckBox box;
-	private ImageIcon loginImage, passImage, forgotImage,befIcon;
-	private TitledBorder title;
+	private JButton signButton, logButton, forgotButton;
+	private ImageIcon befIcon;
 	private JPanel panel;
 
 	private ArrayList<Usuario> a;
@@ -34,88 +31,71 @@ public class Login extends JFrame
 
 	public Login()
 	{
-		super("Log In");
-
-		ImageIcon icon = new ImageIcon(ResourcePaths.imagem("rose_lilaz_escuro.jpeg"));
-		panel = new JPanel()
-		{
-            protected void paintComponent(Graphics g)
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-
+		super("AutoImport MZ - Iniciar sessao");
 
         befIcon=new ImageIcon(ResourcePaths.imagem("progIcon.png"));
         setIconImage(befIcon.getImage());
 
-		setContentPane(panel);
+		setContentPane(Tema.fundoMarca());
 		cont = getContentPane();
-		GridBagLayout g = new GridBagLayout();
-		cont.setLayout(g);
-		panel = new JPanel();
-		panel.setLayout(g);
+		cont.setLayout(new GridBagLayout());
 
 		a=new ArrayList<Usuario>();
 		val=new Validacao();
 		pes=new Pesquisa();
 		lerusuario();
 
+		// Cartao central com o formulario
+		panel = Tema.cartao(new GridBagLayout());
+		panel.setBorder(BorderFactory.createEmptyBorder(32, 36, 28, 36));
+		panel.setPreferredSize(new Dimension(380, 440));
+
 		GridBagConstraints grid = new GridBagConstraints();
-		grid.insets = new Insets(10,10,10,10);
-
-		panel.setBackground(new Color(0, 128, 128,150));
-		panel.setPreferredSize(new Dimension(350,400));
-
-		//Adicionando TitleBorder
-		title = BorderFactory.createTitledBorder("AutoImport MZ");
-		title.setTitleJustification(TitledBorder.CENTER);
-		title.setTitleColor(new Color(0, 255, 204)/*Color.white*/);
-		title.setTitleFont(new Font("Serif", Font.BOLD, 20));
-		panel.setBorder(title);
-
 		grid.gridx = 0;
-		grid.gridy = 0;
-		nameL = new JLabel("Nome:         ");
-		nameL.setToolTipText("Seleciona o nome aulado");
-		loginImage = new ImageIcon(ResourcePaths.imagem("login.jpg"));
-		nameL.setIcon(loginImage);
-		nameL.setForeground(Color.white);
-		nameL.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 204)));
-		nameL.setFont(new Font("Dialog", Font.BOLD, 20));
-		panel.add(nameL, grid);
+		grid.gridwidth = 2;
+		grid.fill = GridBagConstraints.HORIZONTAL;
+		grid.weightx = 1;
 
-		grid.gridx = 1;
+		JLabel marca = new JLabel("AutoImport MZ");
+		marca.setFont(Tema.fonte(Font.BOLD, 24f));
+		marca.setForeground(Tema.MARINHO);
 		grid.gridy = 0;
+		panel.add(marca, grid);
+
+		JLabel sub = Tema.textoSuave("Inicie sessao para continuar");
+		grid.gridy = 1;
+		grid.insets = new Insets(4, 0, 24, 0);
+		panel.add(sub, grid);
+
+		nameL = Tema.rotulo("Utilizador");
+		nameL.setToolTipText("Seleciona o nome do utilizador");
+		grid.gridy = 2;
+		grid.insets = new Insets(0, 0, 6, 0);
+		panel.add(nameL, grid);
 
 		comboTitles =new String [a.size()];
 		comboTitles=val.ternomes(a);
 
 		combo = new JComboBox<String>(comboTitles);
-		grid.fill = GridBagConstraints.HORIZONTAL;
-		combo.setPreferredSize(new Dimension(250, combo.getPreferredSize().height));
+		combo.setPreferredSize(new Dimension(250, 36));
+		grid.gridy = 3;
+		grid.insets = new Insets(0, 0, 16, 0);
 		panel.add(combo, grid);
 
-		grid.gridx = 0;
-		grid.gridy = 1;
-		passL = new JLabel("Password: ");
-		passImage = new ImageIcon(ResourcePaths.imagem("passImage.jpg"));
-		passL.setIcon(passImage);
-		passL.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 204)));
-		passL.setFont(new Font("Dialog", Font.BOLD, 20));
+		passL = Tema.rotulo("Password");
+		grid.gridy = 4;
+		grid.insets = new Insets(0, 0, 6, 0);
 		panel.add(passL, grid);
 
-		grid.gridx = 1;
-		grid.gridy = 1;
-
-		passField = new JPasswordField("",300);
+		passField = new JPasswordField();
+		passField.setPreferredSize(new Dimension(250, 36));
+		passField.putClientProperty("JTextField.placeholderText", "Introduza a sua password");
+		passField.putClientProperty("JPasswordField.showRevealButton", true);
+		grid.gridy = 5;
+		grid.insets = new Insets(0, 0, 24, 0);
 		panel.add(passField, grid);
 
-		grid.gridx = 0;
-		grid.gridy = 2;
-
-		signButton = new JButton("Sign In");
+		signButton = Tema.botaoSecundario(new JButton("Criar conta"));
 		signButton.addActionListener
 		(
 			new ActionListener()
@@ -127,7 +107,7 @@ public class Login extends JFrame
 			}
 		);
 
-		logButton = new JButton("Log In");
+		logButton = Tema.botaoPrimario(new JButton("Entrar"));
 		logButton.addActionListener
 		(
 			new ActionListener()
@@ -144,7 +124,7 @@ public class Login extends JFrame
 
 					if(poz==-1)
 					{
-						JOptionPane.showMessageDialog(null,"A senha esta errada","E R R O",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(Login.this,"A senha esta errada","Erro",JOptionPane.ERROR_MESSAGE);
 						passField.setText("");
 					}
 					else
@@ -155,53 +135,41 @@ public class Login extends JFrame
 							dispose();
 						}
 						else
-							JOptionPane.showMessageDialog(null,"A senha esta errada","E R R O",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(Login.this,"A senha esta errada","Erro",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		);
-
-		panel.add(signButton, grid);
-
-		grid.gridx = 1;
-		grid.gridy = 2;
+		logButton.setPreferredSize(new Dimension(250, 38));
+		getRootPane().setDefaultButton(logButton);
+		grid.gridy = 6;
+		grid.insets = new Insets(0, 0, 10, 0);
 		panel.add(logButton, grid);
 
-		forgotL = new JLabel("I forgot the password");
-		forgotImage = new ImageIcon(ResourcePaths.imagem("ForgotImage.jpg"));
-		forgotL.setIcon(forgotImage);
-		grid.gridx = 0;
-		grid.gridy = 3;
-		panel.add(forgotL,grid);
+		signButton.setPreferredSize(new Dimension(250, 38));
+		grid.gridy = 7;
+		grid.insets = new Insets(0, 0, 10, 0);
+		panel.add(signButton, grid);
 
-		box = new JCheckBox();
-		box.addItemListener
+		forgotButton = Tema.botaoLink(new JButton("Esqueci a password"));
+		forgotButton.addActionListener
 		(
-			new ItemListener()
+			new ActionListener()
 			{
-				public void itemStateChanged(ItemEvent iv)
+				public void actionPerformed(ActionEvent ev)
 				{
-					if(iv.getStateChange()==ItemEvent.SELECTED)
-					{
-						new EditarConta(a);
-						box.setSelected(false);
-					}
+					new EditarConta(a);
 				}
 			}
 		);
-		grid.gridx = 1;
-		grid.gridy = 3;
-		panel.add(box, grid);
+		grid.gridy = 8;
+		grid.fill = GridBagConstraints.NONE;
+		grid.insets = new Insets(0, 0, 0, 0);
+		panel.add(forgotButton, grid);
 
-		nameL.setForeground(Color.white);
-		passL.setForeground(Color.white);
-		forgotL.setForeground(Color.white);
 		cont.add(panel);
 
-		cont.repaint();
-		cont.revalidate();
-
-		setSize(600,500);
+		setSize(600,560);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -236,11 +204,11 @@ public class Login extends JFrame
 		}
 		catch(FileNotFoundException fn)
 		{
-			JOptionPane.showMessageDialog(null,"Nao existe o ficheiro de usuario !","E R R O",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Nao existe o ficheiro de usuario !","Erro",JOptionPane.ERROR_MESSAGE);
 		}
 		catch(IOException io)
 		{
-			JOptionPane.showMessageDialog(null,io.getMessage(),"E R R O",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,io.getMessage(),"Erro",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	public void objusuario(String nome,String pin,String numeroTelefone)

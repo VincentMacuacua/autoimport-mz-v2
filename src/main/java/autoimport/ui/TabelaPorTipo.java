@@ -1,11 +1,9 @@
 package autoimport.ui;
-import autoimport.util.*;
 import autoimport.model.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import java.util.*;
 
 public class TabelaPorTipo extends JFrame implements ItemListener
@@ -18,7 +16,6 @@ public class TabelaPorTipo extends JFrame implements ItemListener
 	private JTable tabelaD, tabelaN, tabelaR, tabelaE;
 	private String[][] arrayD, arrayN, arrayR, arrayE;
 	private JScrollPane scrollD, scrollN, scrollR, scrollE;
-	private JLabel labelGeral;
 	private JPanel panelRadio, panelD, panelN, panelR, panelE, panelGeral;
 	private ButtonGroup buttonGroup;
 	private JRadioButton d,e,n,r;
@@ -26,105 +23,103 @@ public class TabelaPorTipo extends JFrame implements ItemListener
 	
 	public TabelaPorTipo(ArrayList<Cliente> lista)
 	{
-		super("Todos os dados");
-		
-		ImageIcon icon = new ImageIcon(ResourcePaths.imagem("DataImagesTitle1.jpg"));
-		JPanel panel = new JPanel() 
-		{
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        setContentPane(panel);
+		super("Clientes por tipo - AutoImport MZ");
+
         card = new CardLayout();
 		cont = getContentPane();
 		cont.setLayout(new BorderLayout());
+		cont.setBackground(Tema.FUNDO);
 		panelGeral = new JPanel();  //O painel que vai conter todas as tabelas
 		panelGeral.setLayout(card);
-		cont.setBackground(Color.LIGHT_GRAY);
+		panelGeral.setOpaque(false);
+		panelGeral.setBorder(BorderFactory.createEmptyBorder(0,20,20,20));
 		//Inicializacao dos JPanels
-        panelD = new JPanel();
-        panelN = new JPanel();
-        panelE = new JPanel();
-        panelR = new JPanel();
+        panelD = new JPanel(new BorderLayout());
+        panelN = new JPanel(new BorderLayout());
+        panelE = new JPanel(new BorderLayout());
+        panelR = new JPanel(new BorderLayout());
         //Inicializacao dos RadioButtons
-        panelRadio = new JPanel();
+        panelRadio = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        panelRadio.setOpaque(false);
+        panelRadio.setBorder(BorderFactory.createEmptyBorder(16,20,12,20));
         buttonGroup = new ButtonGroup();
-        
+
         n = new JRadioButton("Normal",false);
         e = new JRadioButton("Estado",false);
         d = new JRadioButton("Doutorado",true);
         r = new JRadioButton("Revendedor",false);
-        
-        buttonGroup.add(n);
-        buttonGroup.add(e);
-        buttonGroup.add(d);
-        buttonGroup.add(r);
-        
-        panelRadio.add(d);
-        panelRadio.add(n);
-        panelRadio.add(e);
-        panelRadio.add(r);
 
-		
-		panelD.setLayout(new BorderLayout());
-//		cont.add(panelR,"titulo");
+        // Os botoes aparecem como um seletor segmentado (sem o circulo do radio)
+        for (JRadioButton b : new JRadioButton[]{d, n, e, r})
+        {
+        	b.setIcon(new ImageIcon(new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_ARGB)));
+        	b.setFont(Tema.fonte(Font.BOLD, 13f));
+        	b.setFocusPainted(false);
+        	b.setOpaque(true);
+        	b.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        	buttonGroup.add(b);
+        	panelRadio.add(b);
+        	panelRadio.add(Box.createHorizontalStrut(8));
+        }
+
 		arrayD = tabelaDoutorado(lista, lista.size());
-		tabelaD = new JTable(arrayD, titulosDoutorado);
-		scrollD = new JScrollPane(tabelaD);
-		tabelaD.setEnabled(false);
-		panelD.add(panelRadio, BorderLayout.NORTH);
+		tabelaD = Tema.tabela(arrayD, titulosDoutorado);
+		scrollD = Tema.rolagem(tabelaD);
 		panelD.add(scrollD, BorderLayout.CENTER);
 		panelGeral.add(panelD,"doutor");
-		
-//		System.out.println(titulosNormal.length);
-		panelN.setLayout(new BorderLayout());
+
 		arrayN = tabelaNormal(lista, lista.size());
-		tabelaN = new JTable(arrayN,titulosNormal);
-		scrollN = new JScrollPane(tabelaN);
-		tabelaN.setEnabled(false);
-		panelN.add(panelRadio, BorderLayout.NORTH);
-		panelN.add(scrollN);
+		tabelaN = Tema.tabela(arrayN,titulosNormal);
+		scrollN = Tema.rolagem(tabelaN);
+		panelN.add(scrollN, BorderLayout.CENTER);
 		panelGeral.add(panelN,"normal");
-		
-		panelR.setLayout(new BorderLayout());
+
 		arrayR = tabelaRevendedor(lista, lista.size());
-		tabelaR = new JTable(arrayR,titulosRevendedor);
-		scrollR = new JScrollPane(tabelaR);
-		tabelaR.setEnabled(false);
-		panelR.add(panelRadio, BorderLayout.NORTH);
+		tabelaR = Tema.tabela(arrayR,titulosRevendedor);
+		scrollR = Tema.rolagem(tabelaR);
 		panelR.add(scrollR, BorderLayout.CENTER);
 		panelGeral.add(panelR,"revendedor");
-		
-		panelE.setLayout(new BorderLayout());
+
 		arrayE = tabelaEstado(lista, lista.size());
-		tabelaE = new JTable(arrayE,titulosEstado);
-		scrollE = new JScrollPane(tabelaE);
-		tabelaE.setEnabled(false);
-		panelD.add(panelRadio, BorderLayout.NORTH);
+		tabelaE = Tema.tabela(arrayE,titulosEstado);
+		scrollE = Tema.rolagem(tabelaE);
 		panelE.add(scrollE, BorderLayout.CENTER);
 		panelGeral.add(panelE, "estado");
 
-		
-		cont.add(panelRadio, BorderLayout.NORTH);
+		JPanel topo = new JPanel(new BorderLayout());
+		topo.setOpaque(false);
+		topo.add(Tema.cabecalho("Clientes por tipo", "Escolha o tipo de cliente para ver os respetivos dados"), BorderLayout.NORTH);
+		topo.add(panelRadio, BorderLayout.SOUTH);
+		cont.add(topo, BorderLayout.NORTH);
 		cont.add(panelGeral, BorderLayout.CENTER);
-		
-		
+
 		//Eventos dos redioButtons
 		r.addItemListener(this);
 		e.addItemListener(this);
 		n.addItemListener(this);
 		d.addItemListener(this);
+		atualizarSeletor();
 		setSize(1200,800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
+	private void atualizarSeletor()
+	{
+		for (JRadioButton b : new JRadioButton[]{d, n, e, r})
+		{
+			boolean ativo = b.isSelected();
+			b.setBackground(ativo ? Tema.PRIMARIA : Tema.SUPERFICIE);
+			b.setForeground(ativo ? Tema.TEXTO_INVERSO : Tema.TEXTO);
+			b.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(ativo ? Tema.PRIMARIA : Tema.BORDA),
+				BorderFactory.createEmptyBorder(6, 14, 6, 18)));
+		}
+	}
 	//Para Eventos
 	public void itemStateChanged(ItemEvent a)
 	{
+		atualizarSeletor();
 		if(r.isSelected())
 		{
 			card.show(panelGeral, "revendedor");

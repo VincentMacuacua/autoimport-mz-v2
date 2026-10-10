@@ -1,11 +1,9 @@
 package autoimport.ui;
-import autoimport.util.*;
 import autoimport.model.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 import java.util.*;
 
 public class TabelaTodos extends JFrame
@@ -18,183 +16,104 @@ public class TabelaTodos extends JFrame
 	private JTable tabelaD, tabelaN, tabelaR, tabelaE;
 	private String[][] arrayD, arrayN, arrayR, arrayE;
 	private JScrollPane scrollD, scrollN, scrollR, scrollE;
-	private JLabel labelGeral;
 	private JPanel panelTitulo;
 	//Adicionando popup
 	private JPopupMenu popup;
 	private JMenuItem ordenar, sair;
-	
-	
+
+
 	public TabelaTodos(ArrayList<Cliente> lista)
 	{
-		super("Todos os dados");
-		
-		ImageIcon icon = new ImageIcon(ResourcePaths.imagem("DataImagesTitle1.jpg"));
-		JPanel panel = new JPanel() {
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        setContentPane(panel);
+		super("Todos os clientes - AutoImport MZ");
+
 		cont = getContentPane();
-		cont.setLayout(new GridLayout(5,1,0,0));
-		cont.setBackground(Color.LIGHT_GRAY);
-		
-		
-		labelGeral = new JLabel("Dados de Todos os Clientes");
-		labelGeral.setFont(new Font("Serif",Font.BOLD, 50));
-		
-		panelTitulo = new JPanel();
-		labelGeral.setIcon(new ImageIcon(ResourcePaths.imagem("DataImages1.png")));
-		panelTitulo.add(labelGeral);
-		panelTitulo.setBackground(new Color(0, 0, 0,0));
-		
-		
-		cont.add(panelTitulo);
+		cont.setLayout(new BorderLayout());
+		cont.setBackground(Tema.FUNDO);
+
+		panelTitulo = Tema.cabecalho("Dados de todos os clientes", "Clique com o botao direito numa tabela para ordenar por cilindragem");
+		cont.add(panelTitulo, BorderLayout.NORTH);
+
+		JPanel corpo = new JPanel(new GridLayout(4,1,0,12));
+		corpo.setBackground(Tema.FUNDO);
+		corpo.setBorder(BorderFactory.createEmptyBorder(16,20,20,20));
+		cont.add(corpo, BorderLayout.CENTER);
+
 		arrayD = tabelaDoutorado(lista, lista.size());
-		tabelaD = new JTable(arrayD, titulosDoutorado);
-		scrollD = new JScrollPane(tabelaD);
-		tabelaD.setEnabled(false);
-		cont.add(scrollD);
-		
-//		System.out.println(titulosNormal.length);
+		tabelaD = Tema.tabela(arrayD, titulosDoutorado);
+		scrollD = Tema.rolagem(tabelaD);
+		corpo.add(seccaoTabela("Particular · Doutorado", scrollD));
+
 		arrayN = tabelaNormal(lista, lista.size());
-		tabelaN = new JTable(arrayN,titulosNormal);
-		scrollN = new JScrollPane(tabelaN);
-		tabelaN.setEnabled(false);
-		cont.add(scrollN);
-		
+		tabelaN = Tema.tabela(arrayN,titulosNormal);
+		scrollN = Tema.rolagem(tabelaN);
+		corpo.add(seccaoTabela("Particular · Normal", scrollN));
+
 		arrayR = tabelaRevendedor(lista, lista.size());
-		tabelaR = new JTable(arrayR,titulosRevendedor);
-		scrollR = new JScrollPane(tabelaR);
-		tabelaR.setEnabled(false);
-		cont.add(scrollR);
-		
+		tabelaR = Tema.tabela(arrayR,titulosRevendedor);
+		scrollR = Tema.rolagem(tabelaR);
+		corpo.add(seccaoTabela("Empresarial · Revendedor", scrollR));
+
 		arrayE = tabelaEstado(lista, lista.size());
-		tabelaE = new JTable(arrayE,titulosEstado);
-		scrollE = new JScrollPane(tabelaE);
-		tabelaE.setEnabled(false);
-		cont.add(scrollE);
-		
-		//Colocando popup
-				cont.addMouseListener
-				(
-					new MouseAdapter()
-					{
-						public void mouseReleased(MouseEvent e)
-						{
-							processMouseEvent(e);
-						}
-						public void processMouseEvent(MouseEvent e)
-						{
-							if(e.isPopupTrigger())
-								popup.show(e.getComponent(), e.getX( ), e.getY( ));
-							cont.repaint();
-							cont.revalidate();
-						}
-					}
-				);
-				// Colocando popup (compatível com Windows e macOS)
-				cont.addMouseListener
-				(
-				    new MouseAdapter() 
-				    {
-				        public void mousePressed(MouseEvent e) 
-				        {
-				            verificarPopup(e);
-				        }
+		tabelaE = Tema.tabela(arrayE,titulosEstado);
+		scrollE = Tema.rolagem(tabelaE);
+		corpo.add(seccaoTabela("Empresarial · Estado", scrollE));
 
-				        public void mouseReleased(MouseEvent e) 
-				        {
-				            verificarPopup(e);
-				        }
+		popup = new JPopupMenu();
+		//Os JMenuItems
+		ordenar = new JMenuItem("Ordenar por cilindragem");
+		ordenar.setToolTipText("Ordenar os dados dos clientes pela cilindragem");
+		sair = new JMenuItem("Voltar");
+		sair.setToolTipText("Voltar Para Menu");
 
-				        private void verificarPopup(MouseEvent e) 
-				        {
-				            if (e.isPopupTrigger()) 
-				            {
-				                popup.show(e.getComponent(), e.getX(), e.getY());
-				                cont.repaint();
-				                cont.revalidate();
-				            }
-				        }
-				    }
-				);
+		popup.add(ordenar);
+		popup.addSeparator();
+		popup.add(sair);
 
-				
-						
-				popup = new JPopupMenu();
-				//Os JMenuItems
-				ordenar = new JMenuItem("Ordenar");
-				ordenar.setToolTipText("Ordenar os dados dos clientes pela cilindragem");
-				sair = new JMenuItem("Voltar");
-				sair.setToolTipText("Voltar Para Menu");
-				
-				popup.add(ordenar);
-				popup.addSeparator();
-				popup.add(sair);
-				
-				ordenar.addActionListener
-				(
-				    new ActionListener()
-				    {
-				        public void actionPerformed(ActionEvent a)
-				        {
-				            cont.remove(scrollD); // Remove o antigo JScrollPane
-				            bubbleSorte(lista);  //Eh a primeira vez, portanto precisamos reordenar
-				            arrayD = tabelaDoutorado(lista, lista.size()); 
-				            tabelaD = new JTable(arrayD, titulosDoutorado);
-				            tabelaD.setEnabled(false);
-				            scrollD = new JScrollPane(tabelaD);
-				            cont.add(scrollD, 1); // Reinsere no índice correto
-				            
-				            cont.remove(scrollN); 
-				            //Ja nao precisamos reordenar
-				            arrayN = tabelaNormal(lista, lista.size()); 
-				            tabelaN = new JTable(arrayN, titulosNormal);
-				            tabelaN.setEnabled(false);
-				            scrollN = new JScrollPane(tabelaN);
-				            cont.add(scrollN, 2); 
-				            
+		// O menu de contexto fica disponivel em toda a janela, incluindo dentro das tabelas
+		for (JComponent c : new JComponent[]{(JComponent) cont, corpo, tabelaD, tabelaN, tabelaR, tabelaE, scrollD, scrollN, scrollR, scrollE})
+			c.setComponentPopupMenu(popup);
 
-				            cont.remove(scrollR); 
-				            //Das outras vezes ja nao precisamos reordenar
-				            arrayR = tabelaRevendedor(lista, lista.size()); 
-				            tabelaR = new JTable(arrayR, titulosRevendedor);
-				            tabelaR.setEnabled(false);
-				            scrollR = new JScrollPane(tabelaR);
-				            cont.add(scrollR, 3); 
-				            
-				            cont.remove(scrollE); 
-				            //Das outras vezes ja nao precisamos reordenar
-				            arrayE = tabelaEstado(lista, lista.size()); 
-				            tabelaE = new JTable(arrayE, titulosEstado);
-				            tabelaE.setEnabled(false);
-				            scrollE = new JScrollPane(tabelaE);
-				            cont.add(scrollE, 4); 
-				            
-				            cont.revalidate();
-				            cont.repaint();
-				        }
-				    }
-				);
-				sair.addActionListener
-				(
-					new ActionListener()
-					{
-						public void actionPerformed(ActionEvent a)
-						{
-							dispose();
-						}
-					}
-				);
+		ordenar.addActionListener
+		(
+		    new ActionListener()
+		    {
+		        public void actionPerformed(ActionEvent a)
+		        {
+		            bubbleSorte(lista);
+		            arrayD = tabelaDoutorado(lista, lista.size());
+		            tabelaD.setModel(Tema.modeloLeitura(arrayD, titulosDoutorado));
+		            arrayN = tabelaNormal(lista, lista.size());
+		            tabelaN.setModel(Tema.modeloLeitura(arrayN, titulosNormal));
+		            arrayR = tabelaRevendedor(lista, lista.size());
+		            tabelaR.setModel(Tema.modeloLeitura(arrayR, titulosRevendedor));
+		            arrayE = tabelaEstado(lista, lista.size());
+		            tabelaE.setModel(Tema.modeloLeitura(arrayE, titulosEstado));
+		        }
+		    }
+		);
+		sair.addActionListener
+		(
+			new ActionListener()
+			{
+				public void actionPerformed(ActionEvent a)
+				{
+					dispose();
+				}
+			}
+		);
 
-		
 		setSize(1200,800);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
+	}
+	private JPanel seccaoTabela(String titulo, JScrollPane scroll)
+	{
+		JPanel p = new JPanel(new BorderLayout(0,6));
+		p.setOpaque(false);
+		p.add(Tema.rotulo(titulo), BorderLayout.NORTH);
+		p.add(scroll, BorderLayout.CENTER);
+		return p;
 	}
 	public String[][] tabelaDoutorado(ArrayList<Cliente> lista, int linhas)
 	{
@@ -226,7 +145,7 @@ public class TabelaTodos extends JFrame
 		}
 		return array;
 	}
-	
+
 	//Tabela de Normal
 	public String[][] tabelaNormal(ArrayList<Cliente> lista, int linhas)
 	{
@@ -260,7 +179,7 @@ public class TabelaTodos extends JFrame
 		}
 		return array;
 	}
-	
+
 	public String[][] tabelaRevendedor(ArrayList<Cliente> lista, int linhas)
 	{
 		String[][] array = new String[Revendedor.ctRevendor][titulosRevendedor.length];
@@ -292,7 +211,7 @@ public class TabelaTodos extends JFrame
 		}
 		return array;
 	}
-	
+
 	public String[][] tabelaEstado(ArrayList<Cliente> lista, int linhas)
 	{
 		String[][] array = new String[Estado.ctEstado][titulosEstado.length];

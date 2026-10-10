@@ -20,16 +20,8 @@ public class BONUX_Musica extends JFrame
     {
         super("Tocador de Música");
 
-        // Imagem de fundo
-        icon = new ImageIcon(ResourcePaths.imagem("rose_lilaz_escuro.jpeg"));
-        panel = new JPanel() 
-        {
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+        panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
         setContentPane(panel);
         cont = getContentPane();
 
@@ -44,7 +36,7 @@ public class BONUX_Musica extends JFrame
         escolherECarregarAudio();
 
         // Configura a janela
-        setSize(300, 150);
+        setSize(340, 170);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);

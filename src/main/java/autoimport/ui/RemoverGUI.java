@@ -28,21 +28,21 @@ public class RemoverGUI extends JFrame
 		pes=new Pesquisa();
 		
 		JPanel panePrin=new JPanel();
-		panePrin.setLayout(new FlowLayout());
-		
-		introNumero=new JLabel("Introduz numero de telefone");
+		panePrin.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+		panePrin.setBorder(BorderFactory.createEmptyBorder(20, 20, 12, 20));
+
+		introNumero=Tema.rotulo("Número de telefone:");
 		numeroT=new JTextField(20);
-		
+		numeroT.putClientProperty("JTextField.placeholderText", "Ex.: 841234567");
+
 		panePrin.add(introNumero);
 		panePrin.add(numeroT);
-		panePrin.setBackground(new Color(28, 169, 201));
-		
-		cont.add(panePrin,BorderLayout.NORTH);
-		
-		enter=new JButton("Remover");
-		removeIcon=new ImageIcon(ResourcePaths.imagem("remover1.png"));
-		enter.setIcon(removeIcon);
-		enter.setForeground(Color.red);
+
+		cont.add(Tema.cabecalho("Remover cliente", "Esta operação apaga o cliente de forma permanente"),BorderLayout.NORTH);
+		cont.add(panePrin,BorderLayout.CENTER);
+
+		enter=Tema.botaoPerigo(new JButton("Remover cliente"));
+		enter.setPreferredSize(new Dimension(170, 36));
 		enter.addActionListener
 		(
 			new ActionListener()
@@ -148,13 +148,12 @@ public class RemoverGUI extends JFrame
 			}
 		);
 		
-		cont.add(enter,BorderLayout.SOUTH);
-		
-		cont.setBackground(new Color(255, 100, 0));
-		
-		
+		JPanel paneBotao=new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 16));
+		paneBotao.add(enter);
+		cont.add(paneBotao,BorderLayout.SOUTH);
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(500,200);
+		setSize(520,280);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

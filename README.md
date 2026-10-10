@@ -25,6 +25,7 @@ Orientada a Objetos, e posteriormente reorganizado como projeto de portefólio
 ## Tecnologias
 
 - Java 17+ (Swing)
+- FlatLaf (look-and-feel moderno), com paleta própria em `autoimport.ui.Tema`
 - Maven
 - iText 5 (geração de PDF)
 - JUnit 5 (testes da lógica de cálculo de impostos)
@@ -36,7 +37,7 @@ src/main/java/autoimport/
   model/        Cliente e as suas subclasses, Usuario, interface Calculos_API
   service/      Calculos, Pesquisa, Remover, Alteracao, Validacao
   persistence/  Ficheiro (leitura/escrita em disco), ExportarComprasPDF
-  ui/           Janelas Swing (Login, Menu, formulários, tabelas, relatórios)
+  ui/           Janelas Swing (Login, Menu, formulários, tabelas, relatórios) e Tema (cores e componentes)
   util/         ResourcePaths (carregamento de imagens/média), PasswordUtil (hash)
 src/main/resources/
   imagens/ musica/ video/    assets usados pela interface

@@ -17,65 +17,51 @@ public class RegistoUser extends JFrame
     private JTextField campoPin,campoT;
     private JButton botaoSalvar;
     private JLabel nome,pin,numeroT;
-    private ImageIcon loginImage, passImage,numeroTIcon;
     private ArrayList<Usuario> list;
 
     public RegistoUser(ArrayList<Usuario> list,JComboBox combo) 
     {
-        super("Cadastro de Usuário");
+        super("Criar conta - AutoImport MZ");
         this.list = list;
-        
-        ImageIcon icon = new ImageIcon(ResourcePaths.imagem("bg2.jpg"));
-        JPanel fundo = new JPanel()
-        {
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        
-        fundo.setLayout(new GridLayout(4,2,10,10));
-        setContentPane(fundo);
+
         Container cont = getContentPane();
+        cont.setLayout(new BorderLayout());
+        cont.add(Tema.cabecalho("Criar conta", "Registe um novo utilizador do sistema"), BorderLayout.NORTH);
 
-        nome=new JLabel("Nome:");
-        nome.setIcon(loginImage);
-        nome.setFont(new Font("Dialog", Font.BOLD, 20));
-        loginImage = new ImageIcon(ResourcePaths.imagem("login.jpg"));
-        nome.setIcon(loginImage);
-        cont.add(nome);
-        
+        JPanel form = new JPanel(new GridLayout(6,1,0,6));
+        form.setBorder(BorderFactory.createEmptyBorder(16, 24, 8, 24));
+        cont.add(form, BorderLayout.CENTER);
+
+        nome=Tema.rotulo("Nome");
+        form.add(nome);
+
         campoNome = new JTextField();
-        campoNome.setFont(new Font("Dialog", Font.BOLD, 20));
-        cont.add(campoNome);
-        
-        pin=new JLabel("Password:");
-        pin.setFont(new Font("Dialog", Font.BOLD, 20));
-        passImage = new ImageIcon(ResourcePaths.imagem("passImage.jpg"));
-		pin.setIcon(passImage);
-        cont.add(pin);
-        
-        campoPin = new JTextField();
-        campoPin.setFont(new Font("Dialog", Font.BOLD, 20));
-        cont.add(campoPin);
-        
-        numeroT=new JLabel("Contacto:");
-        numeroT.setToolTipText("Introduz o numero de Telefone (9 numero )");
-        numeroT.setFont(new Font("Dialog",Font.BOLD,20));
-        numeroTIcon=new ImageIcon(ResourcePaths.imagem("numerT.png"));
-        numeroT.setIcon(numeroTIcon);
-        cont.add(numeroT);
-        
-        campoT=new JTextField(9);
-        campoT.setFont(new Font("Dialog",Font.BOLD,20));
-        cont.add(campoT);
-        
+        campoNome.putClientProperty("JTextField.placeholderText", "Nome do utilizador");
+        form.add(campoNome);
 
-        botaoSalvar = new JButton("Salvar");
-        botaoSalvar.repaint();
-        cont.add(botaoSalvar);
-        //cont.add(new JLabel("")); // Preenche o espaço vazio da grid
+        pin=Tema.rotulo("Password");
+        form.add(pin);
+
+        campoPin = new JPasswordField();
+        campoPin.putClientProperty("JTextField.placeholderText", "Minimo 4 caracteres");
+        campoPin.putClientProperty("JPasswordField.showRevealButton", true);
+        form.add(campoPin);
+
+        numeroT=Tema.rotulo("Contacto");
+        numeroT.setToolTipText("Introduz o numero de Telefone (9 numero )");
+        form.add(numeroT);
+
+        campoT=new JTextField(9);
+        campoT.putClientProperty("JTextField.placeholderText", "Ex.: 841234567");
+        form.add(campoT);
+
+
+        botaoSalvar = Tema.botaoPrimario(new JButton("Criar conta"));
+        botaoSalvar.setPreferredSize(new Dimension(150, 36));
+        getRootPane().setDefaultButton(botaoSalvar);
+        JPanel paneBotao = new JPanel(new FlowLayout(FlowLayout.RIGHT, 24, 16));
+        paneBotao.add(botaoSalvar);
+        cont.add(paneBotao, BorderLayout.SOUTH);
 
         botaoSalvar.addActionListener(new ActionListener() 
         {
@@ -147,7 +133,7 @@ public class RegistoUser extends JFrame
         });
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(300, 150);
+        setSize(420, 420);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);

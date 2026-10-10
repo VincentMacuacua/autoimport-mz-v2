@@ -21,7 +21,11 @@ public class ExportarComprasPDF
             PdfWriter.getInstance(documento, new FileOutputStream(caminhoSaida));
             documento.open();
             //Colocacao do titulo no nosso documento
-            documento.add(new Paragraph("Relatório de Compras (Entregas Concluídas ou em Trânsito)\n\n"));
+            Paragraph marca = new Paragraph("AutoImport MZ", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, MARINHO));
+            documento.add(marca);
+            Paragraph titulo = new Paragraph("Relatório de Compras (Entregas Concluídas ou em Trânsito)", FontFactory.getFont(FontFactory.HELVETICA, 11, TEXTO_SUAVE));
+            titulo.setSpacingAfter(16);
+            documento.add(titulo);
 
             // Criar tabelas para cada tipo de cliente
             //E colocando titulos na nossa tabela
@@ -127,25 +131,25 @@ public class ExportarComprasPDF
             // Adicionar tabelas ao documento apenas se contiverem dados
             if (countD > 0) 
             {
-                documento.add(new Paragraph("Clientes Doutorados"));
+                documento.add(tituloSeccao("Clientes Doutorados"));
                 documento.add(tabelaD);
                 documento.add(new Paragraph("\n"));
             }
             if (countN > 0) 
             {
-                documento.add(new Paragraph("Clientes Normais"));
+                documento.add(tituloSeccao("Clientes Normais"));
                 documento.add(tabelaN);
                 documento.add(new Paragraph("\n"));
             }
             if (countR > 0) 
             {
-                documento.add(new Paragraph("Clientes Revendedores"));
+                documento.add(tituloSeccao("Clientes Revendedores"));
                 documento.add(tabelaR);
                 documento.add(new Paragraph("\n"));
             }
             if (countE > 0) 
             {
-                documento.add(new Paragraph("Clientes do Estado"));
+                documento.add(tituloSeccao("Clientes do Estado"));
                 documento.add(tabelaE);
                 documento.add(new Paragraph("\n"));
             }
@@ -234,6 +238,17 @@ public class ExportarComprasPDF
         return "";
     }
 
+    // Mesmas cores de marca usadas na interface (ver autoimport.ui.Tema)
+    private static final BaseColor MARINHO = new BaseColor(0x13, 0x38, 0x5C);
+    private static final BaseColor TEXTO_SUAVE = new BaseColor(0x64, 0x74, 0x8B);
+
+    private Paragraph tituloSeccao(String texto)
+    {
+        Paragraph p = new Paragraph(texto, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, MARINHO));
+        p.setSpacingAfter(6);
+        return p;
+    }
+
     private PdfPTable criarTabela(String[] titulos) 
     {
         PdfPTable tabela = new PdfPTable(titulos.length);
@@ -243,8 +258,9 @@ public class ExportarComprasPDF
             for (int i = 0; i < titulos.length; i++) 
             {
                 String titulo = titulos[i];
-                PdfPCell cell = new PdfPCell(new Phrase(titulo, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8)));
-                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                PdfPCell cell = new PdfPCell(new Phrase(titulo, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 8, BaseColor.WHITE)));
+                cell.setBackgroundColor(MARINHO);
+                cell.setBorderColor(MARINHO);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPadding(5);
                 tabela.addCell(cell);

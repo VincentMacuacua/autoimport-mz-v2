@@ -20,16 +20,6 @@ public class SeletorVideoMov extends JFrame
     public SeletorVideoMov() 
     {
         super("Seletor e Player de Video (.mov)");
-        ImageIcon icon = new ImageIcon(ResourcePaths.imagem("bg2.jpg"));
-        JPanel panel = new JPanel() 
-		{
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        setContentPane(panel);
         cont = getContentPane();
         criarGUI();
     }
@@ -41,11 +31,11 @@ public class SeletorVideoMov extends JFrame
         cont.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Layout simples
 
         // Label para mostrar o caminho do vídeo
-        labelCaminhoVideo = new JLabel("Nenhum video selecionado.");
+        labelCaminhoVideo = Tema.textoSuave("Nenhum video selecionado.");
         labelCaminhoVideo.setPreferredSize(new Dimension(450, 25));
 
         // Botão para selecionar o vídeo
-        botaoSelecionarVideo = new JButton("Selecionar Video (.mov)");
+        botaoSelecionarVideo = Tema.botaoSecundario(new JButton("Selecionar video (.mov)"));
         botaoSelecionarVideo.addActionListener
         (
         	new ActionListener() 
@@ -58,7 +48,7 @@ public class SeletorVideoMov extends JFrame
     	);
 
         // Botão para "assistir" o vídeo (abrir com player padrão)
-        JButton botaoAssistirVideo = new JButton("Assistir Video");
+        JButton botaoAssistirVideo = Tema.botaoPrimario(new JButton("Assistir video"));
         botaoAssistirVideo.addActionListener
         (
         	new ActionListener() 
@@ -77,7 +67,7 @@ public class SeletorVideoMov extends JFrame
 
         
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 150);
+        setSize(520, 170);
         setLocationRelativeTo(null);
         setVisible(true);
     }

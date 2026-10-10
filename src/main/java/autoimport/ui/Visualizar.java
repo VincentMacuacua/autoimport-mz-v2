@@ -2,7 +2,6 @@ package autoimport.ui;
 import autoimport.model.*;
 
 import java.util.ArrayList;
-import java.awt.Color;
 import java.text.DecimalFormat;
 import javax.swing.*;
 
@@ -83,16 +82,13 @@ public class Visualizar extends JFrame
 
 		s[0][0]=meticais.format(valorAdoaneiro);
 
-		tab=new JTable(s,cabecalho);
-		tab.setEnabled(false);
-		scr=new JScrollPane(tab);
-		scr.setBackground(new Color(0, 255, 204));
-		scr.setBackground(new Color(255, 140, 0));
-		tab.setForeground(new Color(255, 140, 0));
+		tab=Tema.tabela(s,cabecalho);
+		scr=Tema.rolagem(tab);
+		scr.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
 
 		f = new JFrame("Resumo de Tipos de Cliente");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setSize(500, 150);
+        f.setSize(560, 160);
         f.add(scr);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
@@ -110,16 +106,13 @@ public class Visualizar extends JFrame
 
 		s[0][0]=meticais.format(valorTotal);
 
-		tab=new JTable(s,cabecalho);
-		tab.setEnabled(false);
-		scr=new JScrollPane(tab);
-		scr.setBackground(new Color(0, 255, 204));
-		scr.setBackground(new Color(255, 140, 0));
-		tab.setForeground(new Color(255, 140, 0));
+		tab=Tema.tabela(s,cabecalho);
+		scr=Tema.rolagem(tab);
+		scr.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
 
 		f = new JFrame("Resumo de Tipos de Cliente");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setSize(500, 150);
+        f.setSize(560, 160);
         f.add(scr);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
@@ -229,16 +222,13 @@ public class Visualizar extends JFrame
 		s[0][0]=u.getNome();
 		s[0][1]=u.getNumeroTelefone();
 
-		tab=new JTable(s,cabecalho);
-		tab.setEnabled(false);
-		scr=new JScrollPane(tab);
-		scr.setBackground(new Color(0, 255, 204));
-		scr.setBackground(new Color(255, 140, 0));
-		tab.setForeground(new Color(255, 140, 0));
+		tab=Tema.tabela(s,cabecalho);
+		scr=Tema.rolagem(tab);
+		scr.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
 
 		f = new JFrame("Dados do utilizador");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setSize(500, 150);
+        f.setSize(560, 160);
         f.add(scr);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
@@ -259,16 +249,13 @@ public class Visualizar extends JFrame
 		s[0][2]=Revendedor.ctRevendor+"";
 		s[0][3]=Estado.ctEstado+"";
 
-		tab=new JTable(s,cabecalho);
-		tab.setEnabled(false);
-		scr=new JScrollPane(tab);
-		scr.setBackground(new Color(0, 255, 204));
-		scr.setBackground(new Color(255, 140, 0));
-		tab.setForeground(new Color(255, 140, 0));
+		tab=Tema.tabela(s,cabecalho);
+		scr=Tema.rolagem(tab);
+		scr.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
 
 		f = new JFrame("Resumo de Tipos de Cliente");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setSize(500, 150);
+        f.setSize(560, 160);
         f.add(scr);
         f.setLocationRelativeTo(null);
         f.setVisible(true);
@@ -287,9 +274,7 @@ public class Visualizar extends JFrame
 		s[0][2]=Revendedor.ctRevendor+"";
 		s[0][3]=Estado.ctEstado+"";
 
-		tab=new JTable(s,cabecalho);
-		tab.setEnabled(false);
-		tab.setForeground(new Color(255, 140, 0));
+		tab=Tema.tabela(s,cabecalho);
 
         return tab;
 	}

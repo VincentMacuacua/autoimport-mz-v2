@@ -19,273 +19,152 @@ public class Dash extends JFrame
 
     public Dash(float acmN,float acmD,float acmE,float acmR,int totalCarrosVendidos,float adoanerio,double valorTotal,double margem, final int PREJUIZO) 
     {
-    	super("Grafico do estado da Empreza");
+    	super("Dashboard - AutoImport MZ");
 		cont=getContentPane();
-    	//cont.setLayout(new GridLayout(3,1,10,10));
+		cont.setLayout(new BorderLayout());
+		cont.setBackground(Tema.FUNDO);
     	
-    	m=new DecimalFormat("###,###,###.00 Mts");
+    	m=new DecimalFormat("###,###,##0.00 Mts");
     	tabs=new JTabbedPane();
-    	tabs.setForeground(new Color(180, 100, 255));
-    	tabs.setFont(new Font("SansSerif",Font.BOLD,20));
+    	tabs.setFont(Tema.fonte(Font.BOLD, 14f));
     	
-    	JPanel pane1=new JPanel();
-    	pane1.setLayout(new GridLayout(1,4,10,10));
-    	pane1.setBackground(Color.DARK_GRAY);
+    	// ---------- Pagina 1: Visao geral ----------
+    	JPanel pane1=new JPanel(new GridLayout(1,4,16,16));
+    	pane1.setOpaque(false);
+    	pane1.add(Tema.cartaoIndicador("Clientes Doutorado", Doutorado.ctDoutorado+"", Tema.TEXTO));
+    	pane1.add(Tema.cartaoIndicador("Clientes Normal", Normal.ctNormal+"", Tema.TEXTO));
+    	pane1.add(Tema.cartaoIndicador("Clientes Revendedor", Revendedor.ctRevendor+"", Tema.TEXTO));
+    	pane1.add(Tema.cartaoIndicador("Clientes Estado", Estado.ctEstado+"", Tema.TEXTO));
     	
-    	JLabel ctDout=new JLabel("Quantidade Doutorado:\n"+Doutorado.ctDoutorado);
-    	ctDout.setForeground(new Color(0, 255, 255));
-    	ctDout.setBackground(new Color(180, 100, 255, 150));
-    	ctDout.setFont(new Font("Dialog",Font.BOLD,15));
-    	ctDout.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-    	pane1.add(ctDout,JLabel.CENTER);
+    	JPanel pane2=new JPanel(new GridLayout(1,2,16,16));
+    	pane2.setOpaque(false);
+    	pane2.add(Tema.cartaoIndicador("Total faturado", m.format(valorTotal), Tema.PRIMARIA));
+    	pane2.add(Tema.cartaoIndicador("Total em direitos aduaneiros", m.format(adoanerio), Tema.PRIMARIA));
     	
-    	JLabel ctNor=new JLabel("Quantidade Normal:\n"+Normal.ctNormal);
-    	ctNor.setForeground(new Color(0, 255, 255));
-    	ctNor.setBackground(new Color(180, 100, 255, 150));
-    	ctNor.setFont(new Font("Dialog",Font.BOLD,15));
-    	ctNor.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-    	pane1.add(ctNor,JLabel.CENTER);
-    	
-    	JLabel ctRev=new JLabel("Quantidade Rvendedor:\n"+Revendedor.ctRevendor);
-    	ctRev.setForeground(new Color(0, 255, 255));
-    	ctRev.setBackground(new Color(180, 100, 255, 150));
-    	ctRev.setFont(new Font("Dialog",Font.BOLD,15));
-    	ctRev.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-    	pane1.add(ctRev,JLabel.CENTER);
-    	
-    	JLabel ctEst=new JLabel("Quantidade Estado:\n"+Estado.ctEstado);
-    	ctEst.setForeground(new Color(0, 255, 255));
-    	ctEst.setBackground(new Color(180, 100, 255, 150));
-    	ctEst.setFont(new Font("Dialog",Font.BOLD,15));
-    	ctEst.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-    	pane1.add(ctEst,JLabel.CENTER);
-    	
-    	//tabs.add("Quantidades",pane1);
-    	//cont.add(tabs);
-    	
-    	JPanel pane2=new JPanel();
-    	pane2.setLayout(new GridLayout(1,3,10,10));
-    	pane2.setBackground(Color.DARK_GRAY);
-    	
-    	JLabel acTotal=new JLabel("Total Ganho: "+m.format(valorTotal));
-    	acTotal.setForeground(new Color(57, 255, 20));
-    	acTotal.setBackground(new Color(180, 100, 255, 150));
-    	acTotal.setFont(new Font("Dialog",Font.BOLD,25));
-    	acTotal.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-    	pane2.add(acTotal,JLabel.CENTER);
-    	
-    	JLabel acAdoneiro=new JLabel("Total Adoaneiro: "+m.format(adoanerio));
-    	acAdoneiro.setForeground(new Color(57, 255, 20));
-    	acAdoneiro.setBackground(new Color(180, 100, 255, 150));
-    	acAdoneiro.setFont(new Font("Dialog",Font.BOLD,25));
-    	acAdoneiro.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-    	pane2.add(acAdoneiro,JLabel.CENTER);
-    	
-    	//tabs.add("Valor total",pane2);
-    	//cont.add(pane2);
-    	
-    	JPanel pane3=new JPanel();
-    	pane3.setLayout(new GridLayout(1,2,10,10));
-    	pane3.setBackground(Color.DARK_GRAY);
-    	
+    	JPanel pane3=new JPanel(new GridLayout(1,2,16,16));
+    	pane3.setOpaque(false);
     	if(margem<PREJUIZO)
-    	{
-	    	JLabel situacao=new JLabel("Empresa em Prejuiso: "+m.format((-1*margem)));
-	    	situacao.setForeground(new Color(204, 0, 61));
-	    	situacao.setBackground(new Color(180, 100, 255, 150));
-	    	situacao.setFont(new Font("Dialog",Font.BOLD,25));
-	    	situacao.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-	    	pane3.add(situacao);
-    	}
+    		pane3.add(Tema.cartaoIndicador("Situacao: empresa em prejuizo", m.format((-1*margem)), Tema.PERIGO));
     	else
-    	{
-    		JLabel situacao=new JLabel("Empresa em Lucro: "+m.format(margem));
-	    	situacao.setForeground(new Color(57, 255, 20));
-	    	situacao.setBackground(new Color(180, 100, 255, 150));
-	    	situacao.setFont(new Font("Dialog",Font.BOLD,25));
-	    	situacao.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
-	    	pane3.add(situacao);
-    	}
+    		pane3.add(Tema.cartaoIndicador("Situacao: empresa em lucro", m.format(margem), Tema.SUCESSO));
+    	
     	JPanel painelGrafico = gerarGraficoBarras(valorTotal, PREJUIZO);
-    	painelGrafico.setBackground(Color.DARK_GRAY);
-    	painelGrafico.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 255, 120)));
     	pane3.add(painelGrafico);
     	
-    	//tabs.add("Grafico",pane3);
-    	//cont.add(pane3);
     	JPanel pagina1=new JPanel();
-    	pagina1.setBackground(Color.DARK_GRAY);
+    	pagina1.setLayout(new BoxLayout(pagina1, BoxLayout.Y_AXIS));
+    	pagina1.setBackground(Tema.FUNDO);
+    	pagina1.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     	pagina1.add(pane1);
+    	pagina1.add(Box.createVerticalStrut(16));
     	pagina1.add(pane2);
+    	pagina1.add(Box.createVerticalStrut(16));
     	pagina1.add(pane3);
-    	pagina1.setLayout(new GridLayout(3,1,10,10));
     	
-    	tabs.add("Consulta 1",pagina1);
+    	tabs.add("Visao geral",pagina1);
     	
-    	ImageIcon icon = new ImageIcon(ResourcePaths.imagem("bgImage.jpg"));
-		JPanel pagina2 = new JPanel() 
-		{
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        //setContentPane(pagina2);
-        
-        cont= getContentPane();
-        
-        pagina2.setLayout(new GridLayout(2,1,10,10));
+    	// ---------- Pagina 2: Viaturas vendidas ----------
+		JPanel pagina2 = new JPanel(new GridBagLayout());
+		pagina2.setBackground(Tema.FUNDO);
 
-        // Título
-        labelTitulo = new JLabel("Quantidade total de carros vendidos:", JLabel.CENTER);
-        labelTitulo.setFont(new Font("Arial", Font.PLAIN, 50));
-        labelTitulo.setForeground(new Color(204, 255, 51));
-        pagina2.add(labelTitulo);
+		JPanel cartaoVendas = Tema.cartao(new GridLayout(2,1,0,8));
+		cartaoVendas.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createLineBorder(Tema.BORDA),
+			BorderFactory.createEmptyBorder(32, 64, 32, 64)));
+        labelTitulo = new JLabel("Total de viaturas vendidas", JLabel.CENTER);
+        labelTitulo.setFont(Tema.fonte(Font.BOLD, 16f));
+        labelTitulo.setForeground(Tema.TEXTO_SUAVE);
+        cartaoVendas.add(labelTitulo);
 
-        // Quantidade
         labelQuantidade = new JLabel(totalCarrosVendidos+"", JLabel.CENTER);
-        labelQuantidade.setBorder(BorderFactory.createLineBorder(new Color(28, 169, 201)));
-        labelQuantidade.setFont(new Font("Arial", Font.PLAIN,50));
-        labelQuantidade.setForeground(new Color(204, 255, 51));
-        pagina2.add(labelQuantidade);
+        labelQuantidade.setFont(Tema.fonte(Font.BOLD, 64f));
+        labelQuantidade.setForeground(Tema.MARINHO);
+        cartaoVendas.add(labelQuantidade);
+        pagina2.add(cartaoVendas);
     	
-        tabs.add("Consulta 2",pagina2);
+        tabs.add("Viaturas vendidas",pagina2);
     	
-        // Painel com imagem de fundo
-        ImageIcon icon3 = new ImageIcon(ResourcePaths.imagem("bgImage.jpg"));
-        JPanel pagina3 = new JPanel() 
-        {
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon3.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        pagina3.setLayout(new GridLayout(2, 1, 0, 0));
+    	// ---------- Pagina 3: Receita por tipo de cliente ----------
+        JPanel pagina3 = new JPanel(new BorderLayout(0,16));
+        pagina3.setBackground(Tema.FUNDO);
+        pagina3.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        // JLabel com texto
-        titulo = new JLabel("Estatistica de Venda", JLabel.CENTER);
-        titulo.setForeground(new Color(28, 169, 201));
-        titulo.setFont(new Font("Serif", Font.BOLD, 50));
+        titulo = new JLabel("Receita por tipo de cliente");
+        titulo.setForeground(Tema.TEXTO);
+        titulo.setFont(Tema.fonte(Font.BOLD, 18f));
 
-        // Painel transparente com o título
-        panelTitulo = new JPanel();
-        panelTitulo.setOpaque(false); // Transparente
+        panelTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
+        panelTitulo.setOpaque(false);
         panelTitulo.add(titulo);
-
         pagina3.add(panelTitulo,BorderLayout.NORTH);
-        //setContentPane(pagina3);
         
-        panelEst=new JPanel();
-        panelEst.setLayout(new GridLayout(2,2,0,0));
-        panelEst.setBackground(new Color(0,0,0,0));
+        panelEst=new JPanel(new GridLayout(2,2,16,16));
+        panelEst.setOpaque(false);
+        panelEst.add(Tema.cartaoIndicador("Normal", m.format(acmN), Tema.TEXTO));
+        panelEst.add(Tema.cartaoIndicador("Doutorado", m.format(acmD), Tema.TEXTO));
+        panelEst.add(Tema.cartaoIndicador("Revendedor", m.format(acmR), Tema.TEXTO));
+        panelEst.add(Tema.cartaoIndicador("Estado", m.format(acmE), Tema.TEXTO));
+        pagina3.add(panelEst, BorderLayout.CENTER);
         
-        JPanel sub1=new JPanel();
-        sub1.setLayout(new GridLayout(2,1));
-        JLabel l1=new JLabel("Valor total Normal",JLabel.CENTER);
-        l1.setFont(new Font("Serif", Font.BOLD, 30));
-        l1.setForeground(new Color(204, 255, 51));
-        sub1.add(l1);
-        sub1.setBackground(new Color(0,0,0,0));
-        JLabel acumN=new JLabel(m.format(acmN),JLabel.CENTER);
-        acumN.setFont(new Font("Serif",Font.PLAIN,30));
-        acumN.setForeground(new Color(204, 255, 51));
-        sub1.add(acumN);
-        sub1.setBorder(BorderFactory.createLineBorder(new Color(28, 169, 201)));
-        
-        JPanel sub2=new JPanel();
-        sub2.setLayout(new GridLayout(2,1));
-        JLabel l2=new JLabel("Valor total Doutorado",JLabel.CENTER);
-        l2.setFont(new Font("Serif", Font.BOLD, 30));
-        l2.setForeground(new Color(204, 255, 51));
-        sub2.add(l2);
-        sub2.setBackground(new Color(0,0,0,0));
-        JLabel acumD=new JLabel(m.format(acmD),JLabel.CENTER);
-        acumD.setFont(new Font("Serif",Font.PLAIN,30));
-        acumD.setForeground(new Color(204, 255, 51));
-        sub2.add(acumD);
-        sub2.setBorder(BorderFactory.createLineBorder(new Color(28, 169, 201)));
-        
-        JPanel sub3=new JPanel();
-        sub3.setLayout(new GridLayout(2,1));
-        JLabel l3=new JLabel("Valor total Revendedor",JLabel.CENTER);
-        l3.setForeground(new Color(204, 255, 51));
-        l3.setFont(new Font("Serif", Font.BOLD, 30));
-        sub3.add(l3);
-        sub3.setBackground(new Color(0,0,0,0));
-        JLabel acumR=new JLabel(m.format(acmR),JLabel.CENTER);
-        acumR.setFont(new Font("Serif",Font.PLAIN,30));
-        acumR.setForeground(new Color(204, 255, 51));
-        sub3.add(acumR);
-        sub3.setBorder(BorderFactory.createLineBorder(new Color(28, 169, 201)));
-        
-        JPanel sub4=new JPanel();
-        sub4.setLayout(new GridLayout(2,1));
-        JLabel l4=new JLabel("Valor total Estado",JLabel.CENTER);
-        l4.setForeground(new Color(204, 255, 51));
-        l4.setBackground(new Color(0,0,0,0));
-        l4.setFont(new Font("Serif", Font.BOLD, 30));
-        sub4.add(l4);
-        sub4.setBackground(new Color(0,0,0,0));
-        JLabel acumE=new JLabel(m.format(acmE),JLabel.CENTER);
-        acumE.setFont(new Font("Serif",Font.PLAIN,30));
-        acumE.setForeground(new Color(204, 255, 51));
-        sub4.add(acumE);
-        sub4.setBorder(BorderFactory.createLineBorder(new Color(28, 169, 201)));
-        
-        panelEst.add(sub1);
-        panelEst.add(sub2);
-        panelEst.add(sub3);
-        panelEst.add(sub4);
-        
-        pagina3.add(panelEst);
-        
-        tabs.add("Consulta 3",pagina3);
+        tabs.add("Receita por tipo",pagina3);
     	
-    	cont.add(tabs);
+        cont.add(Tema.cabecalho("Dashboard", "Indicadores de vendas e situacao financeira da empresa"), BorderLayout.NORTH);
+    	cont.add(tabs, BorderLayout.CENTER);
 		
-		repaint();
-		revalidate();
-		setSize(1100,800);
-		cont.setBackground(Color.DARK_GRAY);
+		setSize(1100,720);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
     }
     public JPanel gerarGraficoBarras(double margem,final float PREJUIZO) 
     {
-        return new JPanel() 
+        JPanel p = new JPanel() 
         {
             protected void paintComponent(Graphics g) 
             {
                 super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-                int alturaMax = 150;
-                double maior = Math.max(margem, PREJUIZO);
+                Insets in = getInsets();
+                int topo = in.top + 28;
+                int base = getHeight() - in.bottom - 24;
+                int alturaMax = Math.max(20, base - topo - 20);
+                double maior = Math.max(Math.max(margem, PREJUIZO), 1);
                 int altura1 = (int) ((margem / maior) * alturaMax);
                 int altura2 = (int) ((PREJUIZO / maior) * alturaMax);
-                int base = getHeight() - 30;
-                int largura = 60;
+                int largura = 56;
+                int x1 = in.left + 40, x2 = x1 + largura + 48;
 
-                // Barra verde
-                g.setColor(new Color(34, 139, 34));
-                g.fillRect(80, base - altura1, largura, altura1);
-                g.setColor(Color.WHITE);
-                g.drawString(String.format("%.2f", margem), 80, base - altura1 - 5);
+                g2.setFont(Tema.fonte(Font.BOLD, 11f));
+                g2.setColor(Tema.TEXTO_SUAVE);
+                g2.drawString("TOTAL FATURADO VS. LIMITE DE PREJUIZO", in.left, in.top + 12);
 
-                // Barra vermelha
-                g.setColor(new Color(204, 0, 61));
-                g.fillRect(180, base - altura2, largura, altura2);
-                g.setColor(Color.WHITE);
-                g.drawString(String.format("%.2f", PREJUIZO), 180, base - altura2 - 5);
+                g2.setColor(Tema.BORDA);
+                g2.drawLine(in.left, base, getWidth() - in.right, base);
+
+                g2.setColor(Tema.PRIMARIA);
+                g2.fillRoundRect(x1, base - altura1, largura, altura1, 6, 6);
+                g2.setColor(new Color(0xCBD5E1));
+                g2.fillRoundRect(x2, base - altura2, largura, altura2, 6, 6);
+
+                g2.setFont(Tema.fonte(Font.PLAIN, 11f));
+                g2.setColor(Tema.TEXTO);
+                g2.drawString(m.format(margem), x1, base - altura1 - 6);
+                g2.drawString(m.format(PREJUIZO), x2, base - altura2 - 6);
+                g2.setColor(Tema.TEXTO_SUAVE);
+                g2.drawString("Faturado", x1, base + 16);
+                g2.drawString("Limite", x2, base + 16);
+                g2.dispose();
             }
-
-            /*public Dimension getPreferredSize() 
-            {
-                return new Dimension(320, 200);
-            }*/
         };
+        p.setBackground(Tema.SUPERFICIE);
+        p.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createLineBorder(Tema.BORDA),
+			BorderFactory.createEmptyBorder(16, 20, 12, 20)));
+        p.setPreferredSize(new Dimension(320, 220));
+        return p;
     }
 
 }

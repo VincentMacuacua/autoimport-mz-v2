@@ -27,30 +27,24 @@ public class PesquisaGUI extends JFrame
 
     public PesquisaGUI(ArrayList<Cliente> a) 
     {
-        super("Procurar cliente");
-        
-        ImageIcon icon = new ImageIcon(ResourcePaths.imagem("bgImage.jpg"));
-		JPanel panelw = new JPanel() 
-		{
-            protected void paintComponent(Graphics g)
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-        setContentPane(panelw);
-        
-		cont = getContentPane();
-		cont.setLayout(new BorderLayout());
-        
+        super("Procurar cliente - AutoImport MZ");
+
         pes=new Pesquisa();
 
         cont = getContentPane();
         cont.setLayout(new BorderLayout());
 
         panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 2, 5, 5));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setLayout(new GridLayout(4, 2, 12, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(16, 20, 16, 20));
+
+        // Tabela de resultados: criada uma vez e atualizada a cada pesquisa
+        tab = Tema.tabela(new String[0][cabeca.length], cabeca);
+        scr = Tema.rolagem(tab);
+        JPanel resultados = new JPanel(new BorderLayout(0, 6));
+        resultados.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+        resultados.add(Tema.rotulo("Resultado"), BorderLayout.NORTH);
+        resultados.add(scr, BorderLayout.CENTER);
 
         lblCriterio = new JLabel("Escolhe criterio:");
         combo = new JComboBox(comboItem);
@@ -83,7 +77,8 @@ public class PesquisaGUI extends JFrame
         txtNome = new JTextField();
         txtNome.setEnabled(false);
 
-        btnPesquisar = new JButton("Pesquisar");
+        btnPesquisar = Tema.botaoPrimario(new JButton("Pesquisar"));
+        getRootPane().setDefaultButton(btnPesquisar);
         btnPesquisar.addActionListener
         (
         	new ActionListener() 
@@ -111,22 +106,14 @@ public class PesquisaGUI extends JFrame
 	                if(campoTexto==null)
 	                	JOptionPane.showMessageDialog(null,"Introduz na caixa de texto","ERRO",JOptionPane.ERROR_MESSAGE);
 	                if(poz==-1)
-	                	JOptionPane.showMessageDialog(null,"Nao existe esse cliente","ERRO",JOptionPane.ERROR_MESSAGE);
+	                {
+	                	tab.setModel(Tema.modeloLeitura(new String[0][cabeca.length], cabeca));
+	                	JOptionPane.showMessageDialog(PesquisaGUI.this,"Nao existe esse cliente","Sem resultados",JOptionPane.INFORMATION_MESSAGE);
+	                }
 	                else
 	                {
 	                	dados=preencher(a,poz);
-		                tab=new JTable(dados,cabeca);
-		                tab.setForeground(Color.RED);
-		                tab.setEnabled(false);
-		                scr=new JScrollPane(null);
-		                scr=new JScrollPane(tab);
-		                scr.setBackground(Color.BLUE);
-		                scr.setForeground(Color.BLUE);
-		                cont.add(scr, BorderLayout.CENTER);
-		                
-		                panel.repaint();
-		                panel.revalidate();
-		                
+		                tab.setModel(Tema.modeloLeitura(dados, cabeca));
 	                }
 	            }
         	}
@@ -143,13 +130,14 @@ public class PesquisaGUI extends JFrame
         panel.repaint();
         panel.revalidate();
 
-        cont.add(panel, BorderLayout.NORTH);
-        
-        cont.repaint();
-        cont.revalidate();
+        JPanel topo = new JPanel(new BorderLayout());
+        topo.add(Tema.cabecalho("Procurar cliente", "Pesquise por código da viatura ou pelo nome do cliente"), BorderLayout.NORTH);
+        topo.add(panel, BorderLayout.CENTER);
+        cont.add(topo, BorderLayout.NORTH);
+        cont.add(resultados, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(1000, 400);
+        setSize(1000, 480);
         setLocationRelativeTo(null);
         setVisible(true);
     }

@@ -21,12 +21,10 @@ public class EditarConta extends JFrame
 	private GridBagLayout g;
 	private GridBagConstraints grid;
 	private JPanel panel;
-	private TitledBorder title;
 	private JLabel nameL, contL, nome;
 	private String comboTitles[];
 	private JComboBox combo;
 	private JTextField contacto,novaPassword;
-	private ImageIcon loginImage, contImagem;
 	private JButton returnar, salvar,alterar;
 	
 	private Validacao val;
@@ -37,22 +35,12 @@ public class EditarConta extends JFrame
 	
 	public EditarConta(ArrayList<Usuario> a)
 	{
-		super("Alterar a password");
-		ImageIcon icon = new ImageIcon(ResourcePaths.imagem("rose_lilaz_escuro.jpeg"));
-		
-		panel = new JPanel()
-		{
-            protected void paintComponent(Graphics g) 
-            {
-                super.paintComponent(g);
-                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-		setContentPane(panel);
+		super("Recuperar password - AutoImport MZ");
 		c=getContentPane();
+		c.setLayout(new BorderLayout());
+		c.add(Tema.cabecalho("Recuperar password", "Confirme o seu contacto para definir uma nova password"), BorderLayout.NORTH);
 		
 		g=new GridBagLayout();
-		c.setLayout(g);
 		
 		val=new Validacao();
 		pes=new Pesquisa();
@@ -61,29 +49,17 @@ public class EditarConta extends JFrame
 		
 		panel=new JPanel();
 		panel.setLayout(g);
+		panel.setBorder(BorderFactory.createEmptyBorder(16,24,16,24));
 		
 		grid=new GridBagConstraints();
-		grid.insets=new Insets(10,10,10,10);
-		
-		panel.setBackground(new Color(0, 128, 128,150));
-		panel.setPreferredSize(new Dimension(350,400));
-		
-		title=BorderFactory.createTitledBorder("Alteracao da Password");
-		title.setTitleJustification(TitledBorder.CENTER);
-		title.setTitleColor(new Color(0, 255, 204));
-		title.setTitleFont(new Font("Serif", Font.BOLD, 20));
-		panel.setBorder(title);
+		grid.insets=new Insets(8,8,8,8);
+		grid.anchor=GridBagConstraints.WEST;
 		
 		grid.gridx = 0;
 		grid.gridy = 0;
 		
-		nameL = new JLabel("Nome:          ");
-		nameL.setToolTipText("Seleciona o nome aulado");
-		loginImage = new ImageIcon(ResourcePaths.imagem("login.jpg"));
-		nameL.setIcon(loginImage);
-		nameL.setForeground(Color.white);
-		nameL.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 204)));
-		nameL.setFont(new Font("Dialog", Font.BOLD, 20));
+		nameL = Tema.rotulo("Utilizador");
+		nameL.setToolTipText("Seleciona o nome do utilizador");
 		panel.add(nameL, grid);
 		
 		grid.gridx = 2;
@@ -100,25 +76,21 @@ public class EditarConta extends JFrame
 		grid.gridx = 0;
 		grid.gridy = 1;
 		
-		contL = new JLabel("Contacto: ");
+		contL = Tema.rotulo("Contacto");
 		contL.setToolTipText("Introduz o seu numero de telefone");
-		contImagem = new ImageIcon(ResourcePaths.imagem("passImage.jpg"));
-		contL.setForeground(Color.white);
-		contL.setIcon(contImagem);
-		contL.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 204)));
-		contL.setFont(new Font("Dialog", Font.BOLD, 20));
 		panel.add(contL,grid);
 		
 		grid.gridx = 2;
 		grid.gridy = 1;
 		
-		contacto = new JTextField("",300);
+		contacto = new JTextField(20);
+		contacto.putClientProperty("JTextField.placeholderText", "Ex.: 841234567");
 		panel.add(contacto, grid);
 		
 		grid.gridx = 0;
 		grid.gridy = 2;
 		
-		returnar = new JButton("Retornar");
+		returnar = Tema.botaoSecundario(new JButton("Cancelar"));
 		returnar.addActionListener
 		(
 			new ActionListener()
@@ -134,7 +106,7 @@ public class EditarConta extends JFrame
 		grid.gridx = 2;
 		grid.gridy = 2;
 		
-		salvar=new JButton("Verificar");
+		salvar=Tema.botaoPrimario(new JButton("Verificar"));
 		salvar.addActionListener
 		(
 			new ActionListener()
@@ -183,11 +155,8 @@ public class EditarConta extends JFrame
 		grid.gridx = 0;
 		grid.gridy = 3;
 		
-		nome=new JLabel("Nova Password:");
+		nome=Tema.rotulo("Nova password");
 		nome.setToolTipText("Introduz a nova password");
-		nome.setForeground(Color.white);
-		nome.setBorder(BorderFactory.createLineBorder(new Color(0,255,204)));
-		nome.setFont(new Font("Dialog",Font.BOLD,20));
 		nome.setVisible(false);
 		panel.add(nome,grid);
 		
@@ -195,14 +164,13 @@ public class EditarConta extends JFrame
 		grid.gridy = 3;
 		
 		novaPassword=new JTextField();
-		novaPassword.setBorder(BorderFactory.createLineBorder(new Color(0,255,204)));
 		novaPassword.setVisible(false);
 		panel.add(novaPassword,grid);
 		
 		grid.gridx = 1;
 		grid.gridy = 4;
 		
-		alterar=new JButton("Alterar Passaword");
+		alterar=Tema.botaoPrimario(new JButton("Alterar password"));
 		alterar.setVisible(false);
 		alterar.addActionListener
 		(
@@ -229,8 +197,8 @@ public class EditarConta extends JFrame
 		
 		
 		
-		c.add(panel);
-		setSize(700,400);
+		c.add(panel, BorderLayout.CENTER);
+		setSize(620,400);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);

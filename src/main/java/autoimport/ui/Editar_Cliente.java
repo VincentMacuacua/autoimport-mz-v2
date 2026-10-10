@@ -31,13 +31,13 @@ public class Editar_Cliente extends JFrame
 
         // Painel principal
         JPanel painelPrincipal = new JPanel(new GridLayout(3, 1, 5, 5));
+        cont.add(Tema.cabecalho("Estado da compra", "Atualize o estado de entrega de uma viatura"), BorderLayout.NORTH);
         cont.add(painelPrincipal, BorderLayout.CENTER);
-        painelPrincipal.setBackground(new Color(204, 255, 51));
+        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
 
         // Campo de código da viatura
         JPanel painelCodigo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        painelCodigo.setBackground(new Color(204, 255, 51));
-        JLabel lblCodigo = new JLabel("Codigo da Viatura:");
+        JLabel lblCodigo = Tema.rotulo("Código da viatura:");
         campoCodigo = new JTextField(20);
         painelCodigo.add(lblCodigo);
         painelCodigo.add(campoCodigo);
@@ -45,7 +45,6 @@ public class Editar_Cliente extends JFrame
 
         // Grupo de radio buttons
         JPanel painelRadio = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        painelRadio.setBackground(new Color(204, 255, 51));
         rbProcesso = new JRadioButton("Em processo");
         rbConcluida = new JRadioButton("Entrega concluída");
         rbTransito = new JRadioButton("Em trânsito");
@@ -67,9 +66,9 @@ public class Editar_Cliente extends JFrame
         painelPrincipal.add(painelRadio);
 
         // Botão de salvar
-        JPanel painelBotao = new JPanel();
-        painelBotao.setBackground(new Color(204, 255, 51));
-        btnSalvar = new JButton("Salvar Alterações");
+        JPanel painelBotao = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        btnSalvar = Tema.botaoPrimario(new JButton("Salvar alterações"));
+        btnSalvar.setPreferredSize(new Dimension(170, 36));
 
         btnSalvar.addActionListener
         (
@@ -159,7 +158,7 @@ public class Editar_Cliente extends JFrame
         painelPrincipal.add(painelBotao);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 200);
+        setSize(520, 320);
         setLocationRelativeTo(null); // Centraliza a janela
         setVisible(true);
     }

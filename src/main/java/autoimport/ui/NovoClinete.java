@@ -33,11 +33,11 @@ public class NovoClinete extends JFrame implements ItemListener
 
     public NovoClinete(ArrayList<Cliente> array)
     {
-        super("Novo Cliente");
+        super("Novo Cliente - AutoImport MZ");
 
         painelPrincipal = new JPanel();
         painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(8, 24, 16, 24));
 
         buildDadosClientePanel();
         buildDadosCompraPanel();
@@ -47,10 +47,13 @@ public class NovoClinete extends JFrame implements ItemListener
         buildBotoesPanel(array);
 
         scrollPane = new JScrollPane(painelPrincipal);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        add(Tema.cabecalho("Novo cliente", "Preencha os dados do cliente e da compra"), BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 700);
+        setSize(820, 760);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -59,7 +62,7 @@ public class NovoClinete extends JFrame implements ItemListener
     {
         // ---------- Painel: Dados do Cliente ----------
         JPanel painelDadosCliente = new JPanel(new GridLayout(3, 2, 10, 10));
-        painelDadosCliente.setBorder(BorderFactory.createTitledBorder("Dados do Cliente"));
+        painelDadosCliente.setBorder(Tema.seccao("Dados do Cliente"));
 
         painelDadosCliente.add(new JLabel("Nome: "));
         nomeField = new JTextField(20);
@@ -137,7 +140,7 @@ public class NovoClinete extends JFrame implements ItemListener
     {
         // ---------- Painel: Dados da Compra ----------
         JPanel painelDadosCompra = new JPanel(new GridLayout(8, 2, 10, 10));
-        painelDadosCompra.setBorder(BorderFactory.createTitledBorder("Dados da Compra"));
+        painelDadosCompra.setBorder(Tema.seccao("Dados da Compra"));
 
         painelDadosCompra.add(new JLabel("Data da Compra:"));
         JPanel painelData = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -229,7 +232,7 @@ public class NovoClinete extends JFrame implements ItemListener
     {
         // ---------- Painel: Informações Extras ----------
         JPanel painelExtras = new JPanel(new GridLayout(3, 2, 10, 10));
-        painelExtras.setBorder(BorderFactory.createTitledBorder("Informações Extras"));
+        painelExtras.setBorder(Tema.seccao("Informações Extras"));
 
         painelExtras.add(new JLabel("E estrangeiro?"));
         JPanel painelSimNao1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -271,7 +274,7 @@ public class NovoClinete extends JFrame implements ItemListener
     {
         // ---------- Painel: Outras Informações ----------
         JPanel outrasInfo = new JPanel(new GridLayout(3, 2, 10, 10));
-        outrasInfo.setBorder(BorderFactory.createTitledBorder("Outras Informações"));
+        outrasInfo.setBorder(Tema.seccao("Outras Informações"));
         outrasInfo.add(new JLabel("Qtd. Viaturas Desejadas:"));
         quantViaturasCombo = new JComboBox(new String[]{"1", "2", "3", "4", "5"});
         quantViaturasCombo.setEditable(false);
@@ -291,7 +294,7 @@ public class NovoClinete extends JFrame implements ItemListener
     {
         // ---------- Painel: Data Conclusão ----------
         JPanel painelConclusao = new JPanel(new GridLayout(1, 2));
-        painelConclusao.setBorder(BorderFactory.createTitledBorder("Data de Conclusão"));
+        painelConclusao.setBorder(Tema.seccao("Data de Conclusão"));
         painelConclusao.add(new JLabel("Data:"));
 
         JPanel dataConclusao = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -335,11 +338,11 @@ public class NovoClinete extends JFrame implements ItemListener
     private void buildBotoesPanel(ArrayList<Cliente> array)
     {
         // ---------- Painel: Botões ----------
-        JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        JButton gravar = new JButton("Gravar");
-        JButton voltar = new JButton("Voltar");
-        gravar.setPreferredSize(new Dimension(120, 40));
-        voltar.setPreferredSize(new Dimension(120, 40));
+        JPanel botoesPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 16));
+        JButton gravar = Tema.botaoPrimario(new JButton("Gravar cliente"));
+        JButton voltar = Tema.botaoSecundario(new JButton("Cancelar"));
+        gravar.setPreferredSize(new Dimension(150, 38));
+        voltar.setPreferredSize(new Dimension(120, 38));
         voltar.addActionListener
         (
     		new ActionListener()
@@ -476,8 +479,8 @@ public class NovoClinete extends JFrame implements ItemListener
         		}
         	}
         );
-        botoesPanel.add(gravar);
         botoesPanel.add(voltar);
+        botoesPanel.add(gravar);
         painelPrincipal.add(botoesPanel);
     }
 
